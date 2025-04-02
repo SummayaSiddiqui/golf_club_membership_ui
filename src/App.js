@@ -5,30 +5,40 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import TournamentsPage from "./pages/TournamentsPage";
 import MembersPage from './pages/MembersPage';
+import Home from './pages/Home';
 
 const App = () => {
   return (
     <Router>
       <div
-         style={{
-           backgroundImage: 'url(/golfBg.jpeg)',
-           backgroundSize: 'cover',
-           backgroundPosition: 'center',
-           minHeight: '100vh',
-           margin: 0,
-           padding: 0,
-           display: 'flex',
-           flexDirection: 'column',
-           backgroundOpacity:"0.5"
-         }}
+        style={{
+          backgroundImage: "url(/golfBg.jpeg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "100vh",
+          margin: 0,
+          padding: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
         <Header />
-        <main>
+        <main
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <Routes>
-            <Route path="/" element={<h2>Welcome to the Golf Club</h2>} />
+            <Route path="/" element={<Home />} />
             <Route path="/tournaments" element={<TournamentsPage />} />
             <Route path="/members" element={<MembersPage />} />
-            <Route path="/contact" element={<h2>Contact Page (Coming Soon)</h2>} />
+            <Route
+              path="/contact"
+              element={<h2>Contact Page (Coming Soon)</h2>}
+            />
           </Routes>
         </main>
         <Footer />
