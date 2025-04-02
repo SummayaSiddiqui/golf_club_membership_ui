@@ -9,9 +9,20 @@ import MembersPage from './pages/MembersPage';
 const App = () => {
   return (
     <Router>
-      <div>
+      <div
+         style={{
+           backgroundImage: 'url(/golfBg.jpeg)',
+           backgroundSize: 'cover',
+           backgroundPosition: 'center',
+           minHeight: '100vh',
+           margin: 0,
+           padding: 0,
+           display: 'flex',
+           flexDirection: 'column',
+           backgroundOpacity:"0.5"
+         }}
+      >
         <Header />
-        <Navbar />
         <main>
           <Routes>
             <Route path="/" element={<h2>Welcome to the Golf Club</h2>} />
