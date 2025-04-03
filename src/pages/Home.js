@@ -16,7 +16,7 @@ const Home = () => {
       </p>
       <img
         src={homePic}
-        alt="Golf icon photo"
+        alt="Golf icon"
         className="homeImgGolf-icon"
       />
       <p

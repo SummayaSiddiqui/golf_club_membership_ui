@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import TournamentsPage from "./pages/TournamentsPage";
 import MembersPage from "./pages/MembersPage";
 import Home from "./pages/Home";
 import MemberSearchPage from "./pages/MemberSearchPage";
+import ParticipantsPage from "./pages/ParticipantsPage";
 
 const App = () => {
   return (
@@ -33,6 +33,7 @@ const App = () => {
           }}
         >
           <Routes>
+          <Route path="/tournaments/:id/participants" element={<ParticipantsPage />} />
             <Route path="/" element={<Home />} />
             <Route
               path="/memberSearch"
@@ -45,6 +46,7 @@ const App = () => {
               path="/contact"
               element={<h2>Contact Page (Coming Soon)</h2>}
             />
+
           </Routes>
         </main>
         <Footer />
