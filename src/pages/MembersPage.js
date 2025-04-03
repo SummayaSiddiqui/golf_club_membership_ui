@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getMembers } from "../services/api";
-import { FaUserCircle } from "react-icons/fa"; // Import the icon
+import { FaUserCircle } from "react-icons/fa"; 
+import CreateMember from "../components/CreateMember";
 
 const MembersPage = () => {
   const [members, setMembers] = useState([]);
@@ -52,6 +53,7 @@ const MembersPage = () => {
           )}
         </ul>
       )}
+      <CreateMember />
     </div>
   );
 };

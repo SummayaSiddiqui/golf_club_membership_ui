@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom"; // Import Link
 import { getTournaments } from "../services/api";
 
 const TournamentsPage = () => {
@@ -39,6 +40,7 @@ const TournamentsPage = () => {
               <th>Location</th>
               <th>Entry Fee</th>
               <th>Cash Prize</th>
+              <th>Participants</th> {/* New column */}
             </tr>
           </thead>
           <tbody>
@@ -50,6 +52,14 @@ const TournamentsPage = () => {
                 <td>{tournament.location}</td>
                 <td>${tournament.entryFee}</td>
                 <td>${tournament.cashPrizeAmount}</td>
+                <td>
+                  <Link
+                    to={`/tournaments/${tournament.id}/participants`}
+                    className="view-link"
+                  >
+                    View Participants
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>
