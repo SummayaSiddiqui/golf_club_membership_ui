@@ -3,6 +3,7 @@ import { getTournaments } from "../services/api";
 
 const TournamentsPage = () => {
   const [tournaments, setTournaments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTournaments = async () => {
@@ -10,8 +11,10 @@ const TournamentsPage = () => {
         const data = await getTournaments();
         console.log("Fetched tournaments:", data);
         setTournaments(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching tournaments:", error);
+        setLoading(false);
       }
     };
 
@@ -21,7 +24,12 @@ const TournamentsPage = () => {
   return (
     <div style={{ padding: "20px" }}>
       <h1>Tournaments</h1>
-      {tournaments.length > 0 ? (
+      {loading ? (
+        <p className="loading-message">
+          Hang on for a minute, we are working on getting the tournament info
+          for you !!
+        </p>
+      ) : tournaments.length > 0 ? (
         <table className="tournament-table">
           <thead>
             <tr>
@@ -31,7 +39,6 @@ const TournamentsPage = () => {
               <th>Location</th>
               <th>Entry Fee</th>
               <th>Cash Prize</th>
-              {/* <th>Participating Members</th> */}
             </tr>
           </thead>
           <tbody>
@@ -43,17 +50,6 @@ const TournamentsPage = () => {
                 <td>{tournament.location}</td>
                 <td>${tournament.entryFee}</td>
                 <td>${tournament.cashPrizeAmount}</td>
-                {/* <td>
-                  <ul style={{ paddingLeft: "20px", margin: 0 }}>
-                    {tournament.participatingMembers?.length > 0 ? (
-                      tournament.participatingMembers.map((member, index) => (
-                        <li key={index}>{member.memberName}</li>
-                      ))
-                    ) : (
-                      <li>No members</li>
-                    )}
-                  </ul>
-                </td> */}
               </tr>
             ))}
           </tbody>
