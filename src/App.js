@@ -7,6 +7,7 @@ import MembersPage from "./pages/MembersPage";
 import Home from "./pages/Home";
 import MemberSearchPage from "./pages/MemberSearchPage";
 import ParticipantsPage from "./pages/ParticipantsPage";
+import TournamentSearch from "./pages/TournamentSearch";
 
 const App = () => {
   return (
@@ -33,20 +34,19 @@ const App = () => {
           }}
         >
           <Routes>
-          <Route path="/tournaments/:id/participants" element={<ParticipantsPage />} />
-            <Route path="/" element={<Home />} />
             <Route
-              path="/memberSearch"
-              element={<MemberSearchPage/>}
+              path="/tournaments/:id/participants"
+              element={<ParticipantsPage />}
             />
-
+            <Route path="/" element={<Home />} />
+            <Route path="/memberSearch" element={<MemberSearchPage />} />
+            <Route path="/tournamentSearch" element={<TournamentSearch />} />
             <Route path="/tournaments" element={<TournamentsPage />} />
             <Route path="/members" element={<MembersPage />} />
             <Route
               path="/contact"
               element={<h2>Contact Page (Coming Soon)</h2>}
             />
-
           </Routes>
         </main>
         <Footer />
