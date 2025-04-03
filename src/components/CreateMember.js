@@ -103,7 +103,7 @@ const CreateMember = () => {
   return (
     <div>
       <div className="card">
-        <h1 className="heading">Create Member</h1>
+        <h2 className="heading">Add Member</h2>
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
