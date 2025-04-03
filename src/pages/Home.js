@@ -1,23 +1,9 @@
 import React from "react";
-import homePic from "../homePic.jpeg";
+import homePic from "../golfFavicon.png";
 
 const Home = () => {
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        borderRadius: "15px",
-        padding: "20px",
-        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-        // width: "85%",
-        maxWidth: "1600px",
-        minWidth: "300px",
-        margin: "auto",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <div className="home-container">
       <p
         style={{
           fontSize: "30px",
@@ -30,13 +16,8 @@ const Home = () => {
       </p>
       <img
         src={homePic}
-        alt="Home"
-        style={{
-          width: "200px",
-          maxWidth: "500px",
-          minWidth: "100px",
-           width: "90%",
-        }}
+        alt="Golf icon photo"
+        className="homeImgGolf-icon"
       />
       <p
         style={{
@@ -45,7 +26,9 @@ const Home = () => {
           textAlign: "center",
         }}
       >
-        please use the menu on top to navigate the website
+        Join our premier golf club and unlock exclusive tournaments, world-class
+        courses, and a vibrant community of golf enthusiasts. Your journey to
+        the perfect swing starts here.{" "}
       </p>
     </div>
   );
