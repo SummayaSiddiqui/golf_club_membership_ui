@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";  // Import Link
+import { Link } from "react-router-dom"; // Import Link
 import { getTournaments } from "../services/api";
 
 const TournamentsPage = () => {
@@ -27,7 +27,8 @@ const TournamentsPage = () => {
       <h1>Tournaments</h1>
       {loading ? (
         <p className="loading-message">
-          Hang on for a minute, we are working on getting the tournament info for you !!
+          Hang on for a minute, we are working on getting the tournament info
+          for you !!
         </p>
       ) : tournaments.length > 0 ? (
         <table className="tournament-table">
@@ -52,7 +53,10 @@ const TournamentsPage = () => {
                 <td>${tournament.entryFee}</td>
                 <td>${tournament.cashPrizeAmount}</td>
                 <td>
-                  <Link to={`/tournaments/${tournament.id}/participants`} className="view-link">
+                  <Link
+                    to={`/tournaments/${tournament.id}/participants`}
+                    className="view-link"
+                  >
                     View Participants
                   </Link>
                 </td>

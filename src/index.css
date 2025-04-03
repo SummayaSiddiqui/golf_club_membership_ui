@@ -62,6 +62,10 @@ code {
     max-width: 500px;
     padding: 15px;
   }
+  .card{
+    width: 350px;
+  }
+  
 }
 
 
@@ -137,6 +141,7 @@ code {
     padding: 8px;
     font-size: 14px;
   }
+
 }
 
 
@@ -190,6 +195,105 @@ code {
   color: rgb(153, 208, 213);
   margin-right: 10px;
 }
+
+/* MemberSearch.css */
+
+/* Container to center the card */
+.container {
+  min-height: 100vh;
+  background-color: #f7f7f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+/* The card that holds the content */
+.card {
+  width: 90%;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+/* Heading styling */
+.heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+/* Styling for the input field */
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-field {
+  width: 80%;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #424d6f;
+  box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.2);
+}
+
+/* Styling for the button */
+.button-group {
+  margin-bottom: 1rem;
+}
+
+.button {
+  background-color: #8197d8;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+}
+
+.button:hover {
+  background-color: #586dae;
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+/* Member details section */
+.member-details {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f1f3f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.member-details h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.member-details p {
+  font-size: 1rem;
+  color: #555;
+  margin: 0.5rem 0;
+}
+
 
 
 

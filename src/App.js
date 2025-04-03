@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import TournamentsPage from "./pages/TournamentsPage";
 import MembersPage from "./pages/MembersPage";
 import Home from "./pages/Home";
+import MemberSearchPage from "./pages/MemberSearchPage";
 import ParticipantsPage from "./pages/ParticipantsPage";
 
 const App = () => {
@@ -34,6 +35,11 @@ const App = () => {
           <Routes>
           <Route path="/tournaments/:id/participants" element={<ParticipantsPage />} />
             <Route path="/" element={<Home />} />
+            <Route
+              path="/memberSearch"
+              element={<MemberSearchPage/>}
+            />
+
             <Route path="/tournaments" element={<TournamentsPage />} />
             <Route path="/members" element={<MembersPage />} />
             <Route
