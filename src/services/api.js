@@ -11,7 +11,20 @@ export const getTournaments = async () => {
     console.error(error);
   }
 };
-
+export const getMembersInTournament = async (id) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8080/api/tournaments/getMembersInTournament/${id}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch members");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
 export const getMembers = async () => {
   try {
     const response = await fetch(
