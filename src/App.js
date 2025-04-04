@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import MemberSearchPage from "./pages/MemberSearchPage";
 import ParticipantsPage from "./pages/ParticipantsPage";
 import TournamentSearch from "./pages/TournamentSearch";
+import MemberDetailsPage from "./pages/MemberDetailsPage";
 
 const App = () => {
   return (
@@ -43,10 +44,8 @@ const App = () => {
             <Route path="/tournamentSearch" element={<TournamentSearch />} />
             <Route path="/tournaments" element={<TournamentsPage />} />
             <Route path="/members" element={<MembersPage />} />
-            <Route
-              path="/contact"
-              element={<h2>Contact Page (Coming Soon)</h2>}
-            />
+            <Route path="/tournament/:id" element={<ParticipantsPage />} />
+            <Route path="/member/:memberId" element={<MemberDetailsPage />} />
           </Routes>
         </main>
         <Footer />

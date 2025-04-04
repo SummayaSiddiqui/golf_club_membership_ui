@@ -135,3 +135,14 @@ export const createMember = async (member) => {
       return response.status;
     }
 };
+
+export const getMemberById = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/members/${id}`);
+    if (!response.ok) throw new Error("Failed to fetch member details");
+    return await response.json();
+  } catch (error) {
+    console.error("API error:", error);
+    return null;
+  }
+};

@@ -23,7 +23,7 @@ const TournamentsPage = () => {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="participants-container">
       <h1>Tournaments</h1>
       {loading ? (
         <p className="loading-message">
