@@ -47,7 +47,7 @@ const MembersPage = () => {
                     <strong>Phone:</strong> {member.memberPhoneNumber} <br />{" "}
                     <strong>Member since:</strong> {member.memberStartDate}
                     <br />
-                    <strong>Mambership duration:</strong> {member.duration}
+                    <strong>Membership duration:</strong> {member.duration}
                   </li>
                 </div>
               ))

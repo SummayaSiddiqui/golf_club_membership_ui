@@ -212,6 +212,7 @@ code {
   width: 90%;
   background-color: white;
   padding: 1rem;
+  margin-top: 1rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -251,18 +252,20 @@ code {
 }
 
 .button {
-  background-color: #8197d8;
+background-color: rgb(153, 208, 213);
   color: white;
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 15px;
   border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
 }
 
 .button:hover {
-  background-color: #586dae;
+  background-color: rgb(120, 180, 190);
 }
 
 /* Error message styling */

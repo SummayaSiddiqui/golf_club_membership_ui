@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { createMember } from "../services/api";
-import { getMembers } from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { createMember, getMembers } from "../services/api";
 
 const CreateMember = () => {
   const [member, setMember] = useState({
@@ -14,7 +12,7 @@ const CreateMember = () => {
   });
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
+  const [showForm, setShowForm] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,10 +30,12 @@ const CreateMember = () => {
       member.memberPhoneNumber.trim() === "" ||
       member.memberStartDate.trim() === "" ||
       member.duration.trim() === "";
-      if (emptyFields){
-        setError("All input fields are required!")
-      }
-      else{
+
+    if (emptyFields) {
+      setError("All input fields are required!");
+      return false;
+    }
+
     setError(""); // Reset error before validation
     const members = await getMembers();
 
@@ -47,28 +47,22 @@ const CreateMember = () => {
     const duplicate = members.find(
       (m) =>
         m.memberName.toLowerCase() === member.memberName.toLowerCase() ||
-        m.memberEmailAddress.toLowerCase() ===
-          member.memberEmailAddress.toLowerCase() ||
+        m.memberEmailAddress.toLowerCase() === member.memberEmailAddress.toLowerCase() ||
         m.memberPhoneNumber === member.memberPhoneNumber
     );
 
     if (duplicate) {
-      if (
+      setError(
         duplicate.memberName.toLowerCase() === member.memberName.toLowerCase()
-      ) {
-        setError("Name already exists.");
-      } else if (
-        duplicate.memberEmailAddress.toLowerCase() ===
-        member.memberEmailAddress.toLowerCase()
-      ) {
-        setError("Email already exists.");
-      } else {
-        setError("Phone already exists.");
-      }
+          ? "Name already exists."
+          : duplicate.memberEmailAddress.toLowerCase() === member.memberEmailAddress.toLowerCase()
+          ? "Email already exists."
+          : "Phone already exists."
+      );
       return false;
     }
 
-    return true;}
+    return true;
   };
 
   const handleSubmit = async (e) => {
@@ -79,109 +73,114 @@ const CreateMember = () => {
 
     const isValid = await validateSubmission();
     if (!isValid) return;
-    if (isValid) {
-      const result = await createMember(member);
-      console.log(result);
 
-      if (result) {
-        setMessage("Member created successfully!");
-        setMember({
-          memberName: "",
-          memberEmailAddress: "",
-          memberPhoneNumber: "",
-          memberAddress: "",
-          memberStartDate: "",
-          duration: "",
-        });
+    const result = await createMember(member);
+    console.log(result);
 
-        navigate("/members");
-      }
+    if (result) {
+      setMessage("Member created successfully!");
+      setMember({
+        memberName: "",
+        memberEmailAddress: "",
+        memberPhoneNumber: "",
+        memberAddress: "",
+        memberStartDate: "",
+        duration: "",
+      });
+
+      setShowForm(false); // Hide form after submission
     }
-    return;
   };
 
   return (
     <div>
-      <div className="card">
-        <h2 className="heading">Add Member</h2>
+      <button className="button" onClick={() => setShowForm(!showForm)}>
+        {showForm ? "Cancel" : "Add Member"}
+      </button>
 
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <input
-              type="text"
-              name="memberName"
-              value={member.memberName}
-              onChange={handleChange}
-              placeholder="Name"
-              className="input-field"
-            />
-          </div>
+      {showForm && (
+        <div className="card">
+          <h2 className="heading">Add Member</h2>
 
-          <div className="input-group">
-            <input
-              type="email"
-              name="memberEmailAddress"
-              value={member.memberEmailAddress}
-              onChange={handleChange}
-              placeholder="Email Address"
-              className="input-field"
-            />
-          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <input
+                type="text"
+                name="memberName"
+                value={member.memberName}
+                onChange={handleChange}
+                placeholder="Name"
+                className="input-field"
+              />
+            </div>
 
-          <div className="input-group">
-            <input
-              type="text"
-              name="memberPhoneNumber"
-              value={member.memberPhoneNumber}
-              onChange={handleChange}
-              placeholder="Phone Number"
-              className="input-field"
-            />
-          </div>
+            <div className="input-group">
+              <input
+                type="email"
+                name="memberEmailAddress"
+                value={member.memberEmailAddress}
+                onChange={handleChange}
+                placeholder="Email Address"
+                className="input-field"
+              />
+            </div>
 
-          <div className="input-group">
-            <input
-              type="text"
-              name="memberAddress"
-              value={member.memberAddress}
-              onChange={handleChange}
-              placeholder="Address"
-              className="input-field"
-            />
-          </div>
+            <div className="input-group">
+              <input
+                type="text"
+                name="memberPhoneNumber"
+                value={member.memberPhoneNumber}
+                onChange={handleChange}
+                placeholder="Phone Number"
+                className="input-field"
+              />
+            </div>
 
-          <div className="input-group">
-            <input
-              type="date"
-              name="memberStartDate"
-              value={member.memberStartDate}
-              onChange={handleChange}
-              className="input-field"
-            />
-          </div>
+            <div className="input-group">
+              <input
+                type="text"
+                name="memberAddress"
+                value={member.memberAddress}
+                onChange={handleChange}
+                placeholder="Address"
+                className="input-field"
+              />
+            </div>
 
-          <div className="input-group">
-            <input
-              type="text"
-              name="duration"
-              value={member.duration}
-              onChange={handleChange}
-              placeholder="Duration"
-              className="input-field"
-            />
-          </div>
+            <div className="input-group">
+              <input
+                type="date"
+                name="memberStartDate"
+                value={member.memberStartDate}
+                onChange={handleChange}
+                className="input-field"
+              />
+            </div>
 
-          <div className="button-group">
-            <button type="submit" className="button">
-              Create Member
-            </button>
-          </div>
-        </form>
+            <div className="input-group">
+              <input
+                type="text"
+                name="duration"
+                value={member.duration}
+                onChange={handleChange}
+                placeholder="Duration"
+                className="input-field"
+              />
+            </div>
 
-        {error && <p className="error-message">{error}</p>}
-        {message && <p className="success-message">{message}</p>}
-      </div>
+            <div className="button-group">
+              <button type="submit" className="button">
+                Create Member
+              </button>
+            </div>
+          </form>
+
+          {error && <p className="error-message">{error}</p>}
+          {message && <p className="success-message">{message}</p>}
+        </div>
+      )}
     </div>
   );
 };
+
 export default CreateMember;
