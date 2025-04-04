@@ -7,7 +7,6 @@ import MembersPage from "./pages/MembersPage";
 import Home from "./pages/Home";
 import MemberSearchPage from "./pages/MemberSearchPage";
 import ParticipantsPage from "./pages/ParticipantsPage";
-import TournamentSearch from "./pages/TournamentSearch";
 import MemberDetailsPage from "./pages/MemberDetailsPage";
 
 const App = () => {
@@ -41,7 +40,6 @@ const App = () => {
             />
             <Route path="/" element={<Home />} />
             <Route path="/memberSearch" element={<MemberSearchPage />} />
-            <Route path="/tournamentSearch" element={<TournamentSearch />} />
             <Route path="/tournaments" element={<TournamentsPage />} />
             <Route path="/members" element={<MembersPage />} />
             <Route path="/tournament/:id" element={<ParticipantsPage />} />

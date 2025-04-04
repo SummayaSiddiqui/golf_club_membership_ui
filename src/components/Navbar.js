@@ -113,28 +113,6 @@ const Navbar = () => {
             Member Search
           </Link>
         </li>
-        <li>
-          <Link
-            to="/tournamentSearch"
-            style={{
-              textDecoration: "none",
-              color: "black",
-              fontSize: "16px",
-              padding: "8px 16px",
-              borderRadius: "5px",
-              display: "flex",
-              alignItems: "center",
-              transition: "background-color 0.3s",
-            }}
-            onMouseEnter={(e) => (e.target.style.backgroundColor = "#f0f0f0")}
-            onMouseLeave={(e) =>
-              (e.target.style.backgroundColor = "transparent")
-            }
-          >
-            <FaTrophy style={{ marginRight: "8px" }} />
-            Tournament Search
-          </Link>
-        </li>
       </ul>
     </nav>
   );
