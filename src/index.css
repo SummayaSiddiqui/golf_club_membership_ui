@@ -425,38 +425,48 @@ background-color: rgb(153, 208, 213);
   background-color: rgb(120, 180, 190);
 }
 
-/* The card that holds the content of tournament search */
+/* Tournament Card Styling */
 .tournament-card {
-  width: 90%;
+  width: 300px;
   background-color: white;
   padding: 1rem;
-  margin-top: 1rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-bottom: 80px;
+  transition: all 0.3s ease;
 }
 
-/* Heading styling */
-.tournament-card h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 1.5rem;
-}
-
-/* Styling for the input field */
+/* Tournament Group (input field) */
 .tournament-group {
   margin-bottom: 1.5rem;
 }
 
-/* Styling for the button */
+/* Tournament Button Group */
 .tournament-button-group {
   margin-bottom: 1rem;
 }
 
+.tournament-details {
+  padding: 1rem;
+  background-color: #f1f3f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tournament-details h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.tournament-details p {
+  font-size: 1rem;
+  color: #555;
+  margin: 0.5rem 0;
+}
+/* Tournament Search Button */
 .tournament-search-button {
-background-color: rgb(153, 208, 213);
+  background-color: rgb(153, 208, 213);
   color: white;
   font-size: 16px;
   font-weight: bold;
@@ -468,9 +478,93 @@ background-color: rgb(153, 208, 213);
   width: 100%;
 }
 
-.button:hover {
+/* Button Hover Effect */
+.tournament-search-button:hover {
   background-color: rgb(120, 180, 190);
 }
+
+.tournament-search-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  height: 60vh;
+}
+
+.intro-box {
+  flex: 1;
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 700px;
+}
+
+.intro-box p {
+  text-align: center;
+}
+
+.intro-box h1 {
+  margin: 0;
+}
+
+.search-type-dropdown-box {
+  flex: 1;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-type-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-type-dropdown label {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#searchType {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 60%; /* Adjust width */
+}
+
+.selected-option {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 300px;
+}
+
+.selected-option p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Make the card responsive for smaller screens */
+@media (max-width: 768px) {
+  .tournament-card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+
 
 
 

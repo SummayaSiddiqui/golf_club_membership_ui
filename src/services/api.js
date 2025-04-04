@@ -38,6 +38,19 @@ export const getTournamentByStartDate = async (tournamentStartDate) => {
     return null;
   }
 };
+export const getTournamentByEndDate = async (tournamentEndDate) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/tournaments/getTournamentByEndDate/${tournamentEndDate}`);
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw new Error("Failed to fetch tournaments");
+    }
+  } catch (error) {
+    console.error("Error fetching tournaments by end date:", error);
+    return null;
+  }
+};
 export const getMembers = async () => {
   try {
     const response = await fetch(
