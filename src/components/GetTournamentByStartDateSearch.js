@@ -1,111 +1,40 @@
-import React, { useState } from "react";
-import { getTournamentByStartDate } from "../services/api";
+import React from "react";
 
-const GetTournamentByStartDateSearch = () => {
-  const [startDate, setStartDate] = useState("");
-  const [tournaments, setTournaments] = useState([]);
-  const [tournament, setTournament] = useState(null);
-  const [error, setError] = useState("");
-
-  const handleSearch = async () => {
-    if (!startDate) {
-      setError("Please enter a start date to search.");
-      return;
-    }
-
-    setError("");
-    const result = await getTournamentByStartDate(startDate);
-
-    if (result) {
-      if (Array.isArray(result) && result.length > 1) {
-        setTournaments(result);
-        setTournament(null);
-      } else {
-        setTournament(result);
-        setTournaments([]);
-      }
-    } else {
-      setError("No tournaments found for this start date.");
-      setTournaments([]);
-      setTournament(null);
-    }
-  };
-
+const GetTournamentByStartDateSearch = ({ tournament, tournaments, error, onBack }) => {
   return (
-    <div>
-      <div className="tournament-card">
-        <h1 >Search Tournaments by Start Date</h1>
+    <div className="tournament-results">
+      {error && <p className="error-message">{error}</p>}
 
-        <div className="tournament-group">
-          <input
-            type="date"
-            placeholder="Enter tournament start date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className="input-field"
-          />
+      {tournament && !Array.isArray(tournament) && (
+        <div className="tournament-details">
+          <h2>Tournament Details</h2>
+          <p><strong>Start Date:</strong> {tournament.startDate}</p>
+          <p><strong>End Date:</strong> {tournament.endDate}</p>
+          <p><strong>Location:</strong> {tournament.location}</p>
+          <p><strong>Entry Fee:</strong> ${tournament.entryFee}</p>
+          <p><strong>Cash Prize:</strong> ${tournament.cashPrizeAmount}</p>
         </div>
-        <div className="tournament-button-group">
-          <button onClick={handleSearch} className="tournament-search-button">
-            Search
-          </button>
+      )}
+
+      {tournaments.length > 0 && (
+        <div className="tournament-details">
+          <h2>Tournaments Found</h2>
+          {tournaments.map((t, index) => (
+            <div key={index} className="tournament-card">
+              <p><strong>Start Date:</strong> {t.startDate}</p>
+              <p><strong>End Date:</strong> {t.endDate}</p>
+              <p><strong>Location:</strong> {t.location}</p>
+              <p><strong>Entry Fee:</strong> ${t.entryFee}</p>
+              <p><strong>Cash Prize:</strong> ${t.cashPrizeAmount}</p>
+              <hr />
+            </div>
+          ))}
         </div>
+      )}
 
-        {error && <p className="error-message">{error}</p>}
-
-        {tournament && !Array.isArray(tournament) && (
-          <div className="tournament-details">
-            <h2>Tournament Details</h2>
-            <p>
-              <strong>Name:</strong> {tournament.name}
-            </p>
-            <p>
-              <strong>Start Date:</strong> {tournament.startDate}
-            </p>
-            <p>
-              <strong>End Date:</strong> {tournament.endDate}
-            </p>
-            <p>
-              <strong>Location:</strong> {tournament.location}
-            </p>
-            <p>
-              <strong>Entry Fee:</strong> ${tournament.entryFee}
-            </p>
-            <p>
-              <strong>Cash Prize:</strong> ${tournament.cashPrize}
-            </p>
-          </div>
-        )}
-
-        {tournaments.length > 0 && (
-          <div className="tournament-details">
-            <h2>Tournaments Found</h2>
-            {tournaments.map((tournament, index) => (
-              <div key={index} className="tournament-card">
-                <p>
-                  <strong>Name:</strong> {tournament.name}
-                </p>
-                <p>
-                  <strong>Start Date:</strong> {tournament.startDate}
-                </p>
-                <p>
-                  <strong>End Date:</strong> {tournament.endDate}
-                </p>
-                <p>
-                  <strong>Location:</strong> {tournament.location}
-                </p>
-                <p>
-                  <strong>Entry Fee:</strong> ${tournament.entryFee}
-                </p>
-                <p>
-                  <strong>Cash Prize:</strong> ${tournament.cashPrize}
-                </p>
-                <hr />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <button className="go-back-button" onClick={onBack}>
+        Go Back
+      </button>
     </div>
   );
 };

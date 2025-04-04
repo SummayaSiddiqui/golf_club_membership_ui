@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { getTournamentByStartDate } from "../services/api";
+import { getTournamentByStartDate, getTournamentByEndDate } from "../services/api";
+import GetTournamentByStartDateSearch from "../components/GetTournamentByStartDateSearch";
+import GetTournamentByEndDateSearch from "../components/GetTournamentByEndDateSearch";
 
 const TournamentSearch = () => {
   const [searchType, setSearchType] = useState("");
@@ -20,12 +22,18 @@ const TournamentSearch = () => {
 
   const handleSearch = async () => {
     if (!startDate) {
-      setError("Please enter a start date.");
+      setError("Please enter a date.");
       return;
     }
 
     setError("");
-    const result = await getTournamentByStartDate(startDate);
+    let result;
+
+    if (searchType === "startDate") {
+      result = await getTournamentByStartDate(startDate);
+    } else if (searchType === "endDate") {
+      result = await getTournamentByEndDate(startDate);
+    }
 
     if (result) {
       if (Array.isArray(result) && result.length > 1) {
@@ -37,47 +45,47 @@ const TournamentSearch = () => {
       }
       setSearchCompleted(true);
     } else {
-      setError("No tournaments found for this start date.");
+      setError("No tournaments found for this date.");
       setSearchCompleted(true);
     }
   };
 
   // 👉 Third view: show only tournament results if search is completed
   if (searchCompleted) {
-    return (
-      <div className="tournament-results">
-        {error && <p className="error-message">{error}</p>}
-
-        {tournament && (
-          <div className="tournament-card">
-            <h2>Tournament Details</h2>
-            <p><strong>Name:</strong> {tournament.name}</p>
-            <p><strong>Start Date:</strong> {tournament.startDate}</p>
-            <p><strong>End Date:</strong> {tournament.endDate}</p>
-            <p><strong>Location:</strong> {tournament.location}</p>
-            <p><strong>Entry Fee:</strong> ${tournament.entryFee}</p>
-            <p><strong>Cash Prize:</strong> ${tournament.cashPrize}</p>
-          </div>
-        )}
-
-        {tournaments.length > 0 && (
-          <div className="tournament-list">
-            <h2>Tournaments Found</h2>
-            {tournaments.map((t, idx) => (
-              <div key={idx} className="tournament-card">
-                <p><strong>Name:</strong> {t.name}</p>
-                <p><strong>Start Date:</strong> {t.startDate}</p>
-                <p><strong>End Date:</strong> {t.endDate}</p>
-                <p><strong>Location:</strong> {t.location}</p>
-                <p><strong>Entry Fee:</strong> ${t.entryFee}</p>
-                <p><strong>Cash Prize:</strong> ${t.cashPrize}</p>
-                <hr />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    );
+    switch (searchType) {
+      case "startDate":
+        return (
+          <GetTournamentByStartDateSearch
+            tournament={tournament}
+            tournaments={tournaments}
+            error={error}
+            onBack={() => {
+              setSearchCompleted(false);
+              setStartDate("");
+              setTournament(null);
+              setTournaments([]);
+              setError("");
+            }}
+          />
+        );
+      case "endDate":
+        return (
+          <GetTournamentByEndDateSearch
+            tournament={tournament}
+            tournaments={tournaments}
+            error={error}
+            onBack={() => {
+              setSearchCompleted(false);
+              setStartDate("");
+              setTournament(null);
+              setTournaments([]);
+              setError("");
+            }}
+          />
+        );
+      default:
+        return <p>No view implemented for this search type.</p>;
+    }
   }
 
   // 👉 First + Second View
@@ -101,21 +109,33 @@ const TournamentSearch = () => {
           >
             <option value="">Select a search type</option>
             <option value="startDate">Search by Start Date</option>
+            <option value="endDate">Search by End Date</option>
           </select>
         </div>
 
         {/* If startDate selected, show input and button below */}
-        {searchType === "startDate" && (
-          <div className="selected-option">
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              className="input-field"
-            />
-            <button onClick={handleSearch} className="tournament-search-button">
-              Search
-            </button>
+        {(searchType === "startDate" || searchType === "endDate") && (
+          <div className="tournament-card">
+            <h1>
+              Search Tournaments by{" "}
+              {searchType === "startDate" ? "Start Date" : "End Date"}
+            </h1>
+
+            <div className="tournament-group">
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="input-field"
+              />
+            </div>
+
+            <div className="tournament-button-group">
+              <button onClick={handleSearch} className="tournament-search-button">
+                Search
+              </button>
+            </div>
+
             {error && <p className="error-message">{error}</p>}
           </div>
         )}

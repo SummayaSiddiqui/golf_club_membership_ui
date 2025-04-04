@@ -564,7 +564,19 @@ background-color: rgb(153, 208, 213);
   }
 }
 
-
+.go-back-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.go-back-button:hover {
+  background-color: #0056b3;
+}
 
 
 
