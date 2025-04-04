@@ -368,17 +368,19 @@ background-color: rgb(153, 208, 213);
   margin-right: 10px;
 }
 
-.member-details {
+.participant-details {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 0;
+  margin-top: 5px;
+  padding: 10px;
   width: 200px;
   height: 100px;
+  border-radius: 8px;
   background: rgb(255, 243, 239);
 }
 
-.member-details p {
+.participant-details p {
   padding-bottom: 10px;
  }
 

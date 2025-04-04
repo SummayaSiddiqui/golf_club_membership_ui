@@ -35,7 +35,7 @@ return (
             <div key={index} className="participantInfo-box">
               <FaUserCircle className="member-icon" />
               <div className="separator"></div>
-              <div className="member-details">
+              <div className="participant-details">
                 <p><strong>Name:</strong> {member.memberName}</p>
                 <button className="view-details-btn" onClick={() => window.location.href = `/member/${member.id}`}>
                   View Details
@@ -50,7 +50,7 @@ return (
             <div key={index} className="participantInfo-box">
               <FaUserCircle className="member-icon" />
               <div className="separator"></div>
-              <div className="member-details">
+              <div className="participant-details">
                 <p><strong>Name:</strong> {member.memberName}</p>
                 <button className="view-details-btn" onClick={() => window.location.href = `/member/${member.id}`}>
                   View Details
