@@ -1,8 +1,10 @@
 import React from 'react'
-
+import GetTournamentByStartDateSearch from "../components/GetTournamentByStartDateSearch";
 const TournamentSearch = () => {
   return (
-    <div>TournamentSearch</div>
+    <div>
+    <GetTournamentByStartDateSearch />
+    </div>
   )
 }
 

@@ -425,7 +425,52 @@ background-color: rgb(153, 208, 213);
   background-color: rgb(120, 180, 190);
 }
 
+/* The card that holds the content of tournament search */
+.tournament-card {
+  width: 90%;
+  background-color: white;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 80px;
+}
 
+/* Heading styling */
+.tournament-card h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+/* Styling for the input field */
+.tournament-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Styling for the button */
+.tournament-button-group {
+  margin-bottom: 1rem;
+}
+
+.tournament-search-button {
+background-color: rgb(153, 208, 213);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.button:hover {
+  background-color: rgb(120, 180, 190);
+}
 
 
 
