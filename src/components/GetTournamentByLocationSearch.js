@@ -1,6 +1,6 @@
-import React from "react";
+import React from "react"
 
-const GetTournamentByEndDateSearch = ({ tournament, tournaments, error, onBack }) => {
+const GetTournamentByLocationSearch = ({ tournament, tournaments, error, onBack }) => {
   return (
     <div className="tournament-results">
       {error && <p className="error-message">{error}</p>}
@@ -18,7 +18,7 @@ const GetTournamentByEndDateSearch = ({ tournament, tournaments, error, onBack }
 
       {tournaments.length > 0 && (
         <div className="tournament-details">
-          <h2>Tournaments Found</h2>
+          <h2>Tournaments Details</h2>
           {tournaments.map((t, index) => (
             <div key={index}>
               <p><strong>Start Date:</strong> {t.startDate}</p>
@@ -38,4 +38,4 @@ const GetTournamentByEndDateSearch = ({ tournament, tournaments, error, onBack }
   );
 };
 
-export default GetTournamentByEndDateSearch;
+export default GetTournamentByLocationSearch;

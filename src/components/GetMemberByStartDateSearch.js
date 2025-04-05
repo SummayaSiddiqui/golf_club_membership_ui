@@ -1,112 +1,41 @@
-import React, { useState } from "react";
-import { getMemberByStartDate } from "../services/api";
+import React from "react"
 
-const GetMemberByStartDateSearch = () => {
-  const [startDate, setStartDate] = useState("");
-  const [members, setMembers] = useState([]);
-  const [member, setMember] = useState(null);
-  const [error, setError] = useState("");
-
-  const handleSearch = async () => {
-    if (!startDate) {
-      setError("Please enter a start date to search.");
-      return;
-    }
-
-    setError("");
-    const result = await getMemberByStartDate(startDate);
-
-    if (result && result.length > 0) {
-      if (result.length === 1) {
-        setMember(result[0]);
-        setMembers([]);
-      } else {
-        setMembers(result);
-        setMember(null);
-      }
-    } else {
-      setError("No members found with this start date.");
-      setMembers([]);
-      setMember(null);
-    }
-  };
-
+const GetTournamentByStartDateSearch = ({ tournament, tournaments, error, onBack }) => {
   return (
-    <div>
-      <div className="card">
-        <h1 className="heading">Search Members by Start Date</h1>
+    <div className="tournament-results">
+      {error && <p className="error-message">{error}</p>}
 
-        <div className="input-group">
-          <input
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className="input-field"
-          />
+      {tournament && !Array.isArray(tournament) && (
+        <div className="tournament-details">
+          <h2>Tournament Details</h2>
+          <p><strong>Start Date:</strong> {tournament.startDate}</p>
+          <p><strong>End Date:</strong> {tournament.endDate}</p>
+          <p><strong>Location:</strong> {tournament.location}</p>
+          <p><strong>Entry Fee:</strong> ${tournament.entryFee}</p>
+          <p><strong>Cash Prize:</strong> ${tournament.cashPrizeAmount}</p>
         </div>
-        <div className="button-group">
-          <button onClick={handleSearch} className="button">
-            Search
-          </button>
+      )}
+
+      {tournaments.length > 0 && (
+        <div className="tournament-details">
+          <h2>Tournaments Found</h2>
+          {tournaments.map((t, index) => (
+            <div key={index}>
+              <p><strong>Start Date:</strong> {t.startDate}</p>
+              <p><strong>End Date:</strong> {t.endDate}</p>
+              <p><strong>Location:</strong> {t.location}</p>
+              <p><strong>Entry Fee:</strong> ${t.entryFee}</p>
+              <p><strong>Cash Prize:</strong> ${t.cashPrizeAmount}</p>
+            </div>
+          ))}
         </div>
+      )}
 
-        {error && <p className="error-message">{error}</p>}
-
-        {member && !Array.isArray(member) && (
-          <div className="member-details">
-            <h2>Member Details</h2>
-            <p>
-              <strong>Name:</strong> {member.memberName}
-            </p>
-            <p>
-              <strong>Email:</strong> {member.memberEmailAddress}
-            </p>
-            <p>
-              <strong>Phone:</strong> {member.memberPhoneNumber}
-            </p>
-            <p>
-              <strong>Address:</strong> {member.memberAddress}
-            </p>
-            <p>
-              <strong>Start Date:</strong> {member.memberStartDate}
-            </p>
-            <p>
-              <strong>Duration:</strong> {member.duration}
-            </p>
-          </div>
-        )}
-
-        {members.length > 0 && (
-          <div className="member-details">
-            <h2>Members Found</h2>
-            {members.map((member, index) => (
-              <div key={index} className="member-card">
-                <p>
-                  <strong>Name:</strong> {member.memberName}
-                </p>
-                <p>
-                  <strong>Email:</strong> {member.memberEmailAddress}
-                </p>
-                <p>
-                  <strong>Phone:</strong> {member.memberPhoneNumber}
-                </p>
-                <p>
-                  <strong>Address:</strong> {member.memberAddress}
-                </p>
-                <p>
-                  <strong>Start Date:</strong> {member.memberStartDate}
-                </p>
-                <p>
-                  <strong>Duration:</strong> {member.duration}
-                </p>
-                <hr />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <button className="go-back-button" onClick={onBack}>
+        Go Back
+      </button>
     </div>
   );
 };
 
-export default GetMemberByStartDateSearch;
+export default GetTournamentByStartDateSearch;
