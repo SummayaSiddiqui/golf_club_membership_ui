@@ -3,6 +3,7 @@ import { getTournamentByStartDate, getTournamentByEndDate, getTournamentByLocati
 import GetTournamentByStartDateSearch from "../components/GetTournamentByStartDateSearch";
 import GetTournamentByEndDateSearch from "../components/GetTournamentByEndDateSearch";
 import GetTournamentByLocationSearch from "../components/GetTournamentByLocationSearch";
+import homePic from "../golfFavicon.png";
 
 const TournamentSearch = () => {
   const [searchType, setSearchType] = useState("");
@@ -128,6 +129,11 @@ const TournamentSearch = () => {
         <h2>Welcome to the Tournament Search!</h2>
         <p>Here you can search for tournaments based on various criteria.</p>
         <p>Select an option from the dropdown below to begin your search.</p>
+        <img
+                src={homePic}
+                alt="Golf icon"
+                className="homeImgGolf-icon"
+              />
       </div>
 
       {/* Dropdown for search type */}
