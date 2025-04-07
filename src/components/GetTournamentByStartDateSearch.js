@@ -8,6 +8,7 @@ const GetTournamentByStartDateSearch = ({ tournament, tournaments, error, onBack
       {tournament && !Array.isArray(tournament) && (
         <div className="tournament-details">
           <h2>Tournament Details</h2>
+          <hr className="tournament-separator" />
           <p><strong>Start Date:</strong> {tournament.startDate}</p>
           <p><strong>End Date:</strong> {tournament.endDate}</p>
           <p><strong>Location:</strong> {tournament.location}</p>
@@ -19,6 +20,7 @@ const GetTournamentByStartDateSearch = ({ tournament, tournaments, error, onBack
       {tournaments.length > 0 && (
         <div className="tournament-details">
           <h2>Tournaments Found</h2>
+          <hr className="tournament-separator" />
           {tournaments.map((t, index) => (
             <div key={index} className="tournament-card">
               <p><strong>Start Date:</strong> {t.startDate}</p>
@@ -26,6 +28,7 @@ const GetTournamentByStartDateSearch = ({ tournament, tournaments, error, onBack
               <p><strong>Location:</strong> {t.location}</p>
               <p><strong>Entry Fee:</strong> ${t.entryFee}</p>
               <p><strong>Cash Prize:</strong> ${t.cashPrizeAmount}</p>
+              <hr className="tournament-separator" />
               <hr />
             </div>
           ))}

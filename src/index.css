@@ -562,7 +562,6 @@ background-color: rgb(153, 208, 213);
   border: 1px solid #2c3e50;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
 }
 
 .tournament-details h2 {
@@ -578,6 +577,11 @@ background-color: rgb(153, 208, 213);
   margin: 0.5rem 0;
 }
 
+.tournament-separator {
+  border: none;
+  border-top: 1px dashed #ccc;
+  margin-top: 1rem;
+}
 
 /* Tournament Button Group */
 .tournament-button-group {
@@ -656,28 +660,23 @@ background-color: rgb(153, 208, 213);
   width: 60%;
 }
 
+.go-back-button {
+    margin-top: 1rem;
+    font-weight: bold;
+    background-color: #2c3e50;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    width: 280px;
+  }
+
 /* Make the card responsive for smaller screens */
 @media (max-width: 768px) {
   .tournament-card {
     width: 100%;
     margin-bottom: 20px;
   }
-}
-
-.go-back-button {
-    margin-top: 1rem;
-    font-weight: bold;
-    background-color: rgb(153, 208, 213);
-    border: 1px solid #2c3e50;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    max-width: 150px;
-  }
-
-.go-back-button:hover {
-  background-color: #2c3e50;
 }
 
 
