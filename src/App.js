@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import TournamentsPage from "./pages/TournamentsPage";
 import MembersPage from "./pages/MembersPage";
 import Home from "./pages/Home";
-import MemberSearchPage from "./pages/MemberSearchPage";
+import MemberSearch from "./pages/MemberSearch";
 import ParticipantsPage from "./pages/ParticipantsPage";
 import TournamentSearch from "./pages/TournamentSearch";
 import MemberDetailsPage from "./pages/MemberDetailsPage";
@@ -40,7 +40,7 @@ const App = () => {
               element={<ParticipantsPage />}
             />
             <Route path="/" element={<Home />} />
-            <Route path="/memberSearch" element={<MemberSearchPage />} />
+            <Route path="/memberSearch" element={<MemberSearch />} />
             <Route path="/tournamentSearch" element={<TournamentSearch />} />
             <Route path="/tournaments" element={<TournamentsPage />} />
             <Route path="/members" element={<MembersPage />} />

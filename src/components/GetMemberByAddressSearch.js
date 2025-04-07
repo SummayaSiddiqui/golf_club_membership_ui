@@ -1,113 +1,39 @@
-import React, { useState } from "react";
-import { getMemberByAddress } from "../services/api"; 
+import React from "react";
 
-const GetMemberByAddressSearch = () => {
-  const [address, setAddress] = useState("");
-  const [members, setMembers] = useState([]); 
-  const [member, setMember] = useState(null); 
-  const [error, setError] = useState("");
-
-  const handleSearch = async () => {
-    if (!address) {
-      setError("Please enter an address to search.");
-      return;
-    }
-
-    setError("");
-    const result = await getMemberByAddress(address);
-
-    if (result) {
-      if (Array.isArray(result) && result.length > 1) {
-       
-        setMembers(result);
-        setMember(null); 
-      } else {
-       
-        setMember(result);
-        setMembers([]);
-      }
-    } else {
-      setError("No members found at this address.");
-      setMembers([]); 
-      setMember(null);
-    }
-  };
-
+const GetMemberByAddressSearch = ({ member, members, error, onBack }) => {
   return (
-    <div>
-      <div className="card">
-        <h1 className="heading">Search Members by Address</h1>
+    <div className="tournament-results">
+      {error && <p className="error-message">{error}</p>}
 
-        <div className="input-group">
-          <input
-            type="text"
-            placeholder="Enter member address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="input-field"
-          />
+      {member && !Array.isArray(member) && (
+        <div className="tournament-details">
+          <h2>Member Details</h2>
+          <p><strong>Name:</strong> {member.memberName}</p>
+          <p><strong>Address:</strong> {member.memberAddress}</p>
+          <p><strong>Phone Number:</strong> {member.memberPhoneNumber}</p>
+          <p><strong>Email Address:</strong> {member.memberEmailAddress}</p>
+          <p><strong>Start Date:</strong> {member.memberStartDate}</p>
         </div>
-        <div className="button-group">
-          <button onClick={handleSearch} className="button">
-            Search
-          </button>
+      )}
+
+      {members.length > 0 && (
+        <div className="tournament-details">
+          <h2>Members Found</h2>
+          {members.map((m, index) => (
+            <div key={index} style={{ marginBottom: "1.5rem" }}>
+              <p><strong>Name:</strong> {m.memberName}</p>
+              <p><strong>Address:</strong> {m.memberAddress}</p>
+              <p><strong>Phone Number:</strong> {m.memberPhoneNumber}</p>
+              <p><strong>Email Address:</strong> {m.memberEmailAddress}</p>
+              <p><strong>Start Date:</strong> {m.memberStartDate}</p>
+            </div>
+          ))}
         </div>
+      )}
 
-        {error && <p className="error-message">{error}</p>}
-
-        {member && !Array.isArray(member) && (
-          <div className="member-details">
-            <h2>Member Details</h2>
-            <p>
-              <strong>Name:</strong> {member.memberName}
-            </p>
-            <p>
-              <strong>Email:</strong> {member.memberEmailAddress}
-            </p>
-            <p>
-              <strong>Phone:</strong> {member.memberPhoneNumber}
-            </p>
-            <p>
-              <strong>Address:</strong> {member.memberAddress}
-            </p>
-            <p>
-              <strong>Start Date:</strong> {member.memberStartDate}
-            </p>
-            <p>
-              <strong>Duration:</strong> {member.duration}
-            </p>
-          </div>
-        )}
-
-        {members.length > 0 && (
-          <div className="member-details">
-            <h2>Members Found</h2>
-            {members.map((member, index) => (
-              <div key={index} className="member-card">
-                <p>
-                  <strong>Name:</strong> {member.memberName}
-                </p>
-                <p>
-                  <strong>Email:</strong> {member.memberEmailAddress}
-                </p>
-                <p>
-                  <strong>Phone:</strong> {member.memberPhoneNumber}
-                </p>
-                <p>
-                  <strong>Address:</strong> {member.memberAddress}
-                </p>
-                <p>
-                  <strong>Start Date:</strong> {member.memberStartDate}
-                </p>
-                <p>
-                  <strong>Duration:</strong> {member.duration}
-                </p>
-                <hr />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <button className="go-back-button" onClick={onBack}>
+        Go Back
+      </button>
     </div>
   );
 };

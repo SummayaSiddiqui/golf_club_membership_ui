@@ -443,11 +443,14 @@ background-color: rgb(153, 208, 213);
 }
 
 .tournament-results {
-  display: grid;
-  gap: 1.5rem;
-  margin-top: 2rem;
-  padding: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+   display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    text-align: center;
+    justify-items: center;
+    align-items: center;
 }
 
 .tournament-details {
