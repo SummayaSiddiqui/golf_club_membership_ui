@@ -185,3 +185,25 @@ export const getMemberById = async (id) => {
     return null;
   }
 };
+
+export const createTournament = async (tournament) => {
+  console.log("Submitting tournament:", tournament);
+
+    const response = await fetch("http://localhost:8080/api/tournaments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(tournament),
+    });
+
+    console.log(response);
+    const responseBody = await response.text();
+    console.log("Server response:", responseBody);
+    if (response.status === 200){
+      return "Tournament successfully added"
+    }
+    if (!response.status === 200) {
+      return response.status;
+    }
+};
