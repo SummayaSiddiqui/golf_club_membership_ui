@@ -9,7 +9,7 @@ const Navbar = () => {
         backgroundColor: "white",
         borderRadius: "10px",
         padding: "10px 20px",
-        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        backgroundColor: "white",
         marginBottom: "20px",
         marginLeft: "10px",
         marginRight: "10px",
@@ -31,7 +31,7 @@ const Navbar = () => {
             style={{
               textDecoration: "none",
               color: "black",
-              fontSize: "16px",
+              fontSize: "12px",
               padding: "8px 16px",
               borderRadius: "5px",
               display: "flex",
@@ -53,7 +53,7 @@ const Navbar = () => {
             style={{
               textDecoration: "none",
               color: "black",
-              fontSize: "16px",
+              fontSize: "12px",
               padding: "8px 16px",
               borderRadius: "5px",
               display: "flex",
@@ -75,7 +75,7 @@ const Navbar = () => {
             style={{
               textDecoration: "none",
               color: "black",
-              fontSize: "16px",
+              fontSize: "12px",
               padding: "8px 16px",
               borderRadius: "5px",
               display: "flex",
@@ -97,7 +97,7 @@ const Navbar = () => {
             style={{
               textDecoration: "none",
               color: "black",
-              fontSize: "16px",
+              fontSize: "12px",
               padding: "8px 16px",
               borderRadius: "5px",
               display: "flex",
@@ -119,7 +119,7 @@ const Navbar = () => {
             style={{
               textDecoration: "none",
               color: "black",
-              fontSize: "16px",
+              fontSize: "12px",
               padding: "8px 16px",
               borderRadius: "5px",
               display: "flex",
