@@ -383,6 +383,31 @@ code {
   justify-content: center;
 }
 
+/* Responsive styling for tablets or smaller screens */
+@media (max-width: 768px) {
+  .participants-container {
+    max-width: 100%;
+  }
+
+  .participants-row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .first-row,
+  .second-row {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+
+  .participantInfo-box {
+    width: 100%;
+      max-width: 400px;
+      margin: 0 auto 20px auto;
+  }
+}
+
 /*Add form*/
 .toggle-form-btn {
   margin: 1rem 0;
