@@ -151,6 +151,7 @@ const CreateMember = () => {
               <input
                 type="date"
                 name="memberStartDate"
+                aria-label="Start Date"
                 value={member.memberStartDate}
                 onChange={handleChange}
                 className="input-field"
