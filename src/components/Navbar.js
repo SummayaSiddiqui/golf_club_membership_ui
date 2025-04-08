@@ -9,7 +9,6 @@ const Navbar = () => {
         backgroundColor: "white",
         borderRadius: "10px",
         padding: "10px 20px",
-        backgroundColor: "white",
         marginBottom: "20px",
         marginLeft: "10px",
         marginRight: "10px",
