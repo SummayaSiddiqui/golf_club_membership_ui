@@ -6,6 +6,7 @@ import GetMemberByAddressSearch from "../components/GetMemberByAddressSearch";
 import GetMemberByPhoneNumberSearch from "../components/GetMemberByPhoneNumberSearch";
 import GetMemberByEmailAddressSearch from "../components/GetMemberByEmailAddressSearch";
 import GetMemberByStartDateSearch from "../components/GetMemberByStartDateSearch";
+import homePic from "../golfMember.png";
 
 const MemberSearch = () => {
   const [searchType, setSearchType] = useState("");
@@ -193,8 +194,14 @@ const MemberSearch = () => {
   return (
     <div className="tournament-search-container">
       <div className="intro-box">
-        <h2>Welcome to the Member Search!</h2>
-        <p>Select a search type from the dropdown below to begin searching.</p>
+        <h2>Welcome to the Member Directory!</h2>
+        <p>Here you can search for members based on various criteria.</p>
+        <p>Select an option from the dropdown below to begin your search.</p>
+        <img
+                        src={homePic}
+                        alt="Golf member"
+                        className="homeImgGolf-icon"
+                      />
       </div>
 
       {/* Dropdown for search type */}
@@ -217,7 +224,7 @@ const MemberSearch = () => {
 
         {/* Show input fields based on search type */}
         {(searchType === "name" || searchType === "address" || searchType === "phoneNumber" || searchType === "email" || searchType === "startDate") && (
-          <div className="member-card">
+          <div className="tournament-card">
             <h1>
               Search Members by{" "}
               {searchType === "name"
