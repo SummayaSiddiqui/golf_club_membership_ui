@@ -78,6 +78,24 @@ export const getMembers = async () => {
     return [];
   }
 };
+
+export const getMemberById = async (id) => {
+  try {
+  console.log("Id",id);
+
+    const response = await fetch(
+      `http://localhost:8080/api/members/${id}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch member by id");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export const getMemberByName = async (name) => {
   try {
     const response = await fetch(
@@ -173,17 +191,6 @@ export const createMember = async (member) => {
     if (!response.status === 200) {
       return response.status;
     }
-};
-
-export const getMemberById = async (id) => {
-  try {
-    const response = await fetch(`http://localhost:8080/api/members/${id}`);
-    if (!response.ok) throw new Error("Failed to fetch member details");
-    return await response.json();
-  } catch (error) {
-    console.error("API error:", error);
-    return null;
-  }
 };
 
 export const createTournament = async (tournament) => {
