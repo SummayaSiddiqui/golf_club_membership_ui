@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMembers } from "../services/api";
 
@@ -7,16 +7,17 @@ const MembersPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [newMember, setNewMember] = useState({
     memberName: "",
-    address: "",
-    email: "",
-    phone: "",
-    startDate: "",
+    memberEmailAddress: "",
+    memberPhoneNumber: "",
+    memberAddress: "",
+    memberStartDate: "",
+    duration: "",
   });
 
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const data = await getMembers();
+        const data = await getMembers(); // Fetch members from the backend
         setMembers(data);
       } catch (error) {
         console.error("Error fetching members:", error);
@@ -26,69 +27,96 @@ const MembersPage = () => {
     fetchMembers();
   }, []);
 
-  const handleAddMember = (e) => {
-    e.preventDefault();
-    // You can later POST to your API here
-    console.log("New Member Data:", newMember);
-    setNewMember({
-      memberName: "",
-      address: "",
-      email: "",
-      phone: "",
-      startDate: "",
-    });
-    setShowForm(false);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewMember({ ...newMember, [name]: value });
   };
 
-  const handleChange = (e) => {
-    setNewMember({ ...newMember, [e.target.name]: e.target.value });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("New Member Before Submission:", newMember);
+
+    try {
+      const response = await fetch("http://localhost:8080/api/members", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newMember),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Member successfully added:", data);
+
+        setMembers((prevMembers) => [...prevMembers, data]);
+        setNewMember({
+          memberName: "",
+          memberAddress: "",
+          memberEmailAddress: "",
+          memberPhoneNumber: "",
+          memberStartDate: "",
+          duration: "",
+        });
+        setShowForm(false);
+      } else {
+        console.error("Error adding member:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error submitting member:", error);
+    }
   };
 
   return (
     <div className="participants-container">
       <h1>Members</h1>
 
-      <button className="toggle-form-btn" onClick={() => setShowForm(!showForm)}>
+      <button className="member-toggle-form-btn" onClick={() => setShowForm(!showForm)}>
         {showForm ? "Hide Form" : "Add New Member"}
       </button>
 
       {showForm && (
-        <form className="tournament-form" onSubmit={handleAddMember}>
+        <form className="member-tournament-form" onSubmit={handleSubmit}>
           <input
             type="text"
             name="memberName"
             placeholder="Member Name"
             value={newMember.memberName}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
           />
           <input
             type="text"
-            name="address"
+            name="memberAddress"
             placeholder="Address"
-            value={newMember.address}
-            onChange={handleChange}
+            value={newMember.memberAddress}
+            onChange={handleInputChange}
           />
           <input
             type="email"
-            name="email"
+            name="memberEmailAddress"
             placeholder="Email"
-            value={newMember.email}
-            onChange={handleChange}
+            value={newMember.memberEmailAddress}
+            onChange={handleInputChange}
           />
           <input
             type="text"
-            name="phone"
+            name="memberPhoneNumber"
             placeholder="Phone"
-            value={newMember.phone}
-            onChange={handleChange}
+            value={newMember.memberPhoneNumber}
+            onChange={handleInputChange}
           />
           <input
             type="date"
-            name="startDate"
+            name="memberStartDate"
             placeholder="Start Date"
-            value={newMember.startDate}
-            onChange={handleChange}
+            value={newMember.memberStartDate}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            name="duration"
+            placeholder="Duration"
+            value={newMember.duration}
+            onChange={handleInputChange}
           />
           <button type="submit">Add Member</button>
         </form>
