@@ -26,29 +26,31 @@ const App = () => {
           alignItems: "center",
         }}
       >
-        <Header />
-        <main
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Routes>
-            <Route
-              path="/tournaments/:id/participants"
-              element={<ParticipantsPage />}
-            />
-            <Route path="/" element={<Home />} />
-            <Route path="/memberSearch" element={<MemberSearch />} />
-            <Route path="/tournamentSearch" element={<TournamentSearch />} />
-            <Route path="/tournaments" element={<TournamentsPage />} />
-            <Route path="/members" element={<MembersPage />} />
-            <Route path="/tournament/:id" element={<ParticipantsPage />} />
-            <Route path="/member/:id" element={<MemberDetailsPage />} />
-          </Routes>
-        </main>
-        <Footer />
+        <div className="app-container">
+          <Header />
+          <main
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Routes>
+              <Route
+                path="/tournaments/:id/participants"
+                element={<ParticipantsPage />}
+              />
+              <Route path="/" element={<Home />} />
+              <Route path="/memberSearch" element={<MemberSearch />} />
+              <Route path="/tournamentSearch" element={<TournamentSearch />} />
+              <Route path="/tournaments" element={<TournamentsPage />} />
+              <Route path="/members" element={<MembersPage />} />
+              <Route path="/tournament/:id" element={<ParticipantsPage />} />
+              <Route path="/member/:id" element={<MemberDetailsPage />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
       </div>
     </Router>
   );
