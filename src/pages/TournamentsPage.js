@@ -150,30 +150,45 @@ const TournamentsPage = () => {
     e.preventDefault();
 
     const newErrors = {};
+
+    // Other validation logic (startDate, endDate, etc.)
     const { startDate, endDate, location, entryFee, cashPrizeAmount } = newTournament;
 
-    // Inline validation checks
-    if (!startDate) newErrors.startDate = "Start date is required.";
-    else if (new Date(startDate) < new Date().setHours(0, 0, 0, 0)) {
-      newErrors.startDate = "Start date cannot be in the past.";
-    }
+    if (!startDate) {
+        newErrors.startDate = "Start date is required.";
+      } else {
+        const todayStr = new Date().toISOString().split("T")[0];
+        const selectedStartStr = new Date(startDate).toISOString().split("T")[0];
+        if (selectedStartStr < todayStr) {
+          newErrors.startDate = "Start date cannot be in the past.";
+        } else {
+          delete newErrors.startDate;
+        }
+      }
     if (!endDate) newErrors.endDate = "End date is required.";
     else if (new Date(startDate) > new Date(endDate)) newErrors.endDate = "End date must not be earlier than the start date.";
 
     if (!location.trim()) newErrors.location = "Location is required.";
 
     if (entryFee === "" || Number(entryFee) < 0) newErrors.entryFee = "Entry fee must be zero or more.";
-    if (cashPrizeAmount === "" || Number(cashPrizeAmount) < 0)
-     newErrors.cashPrizeAmount = "Cash prize must be zero or more.";
+    if (cashPrizeAmount === "" || Number(cashPrizeAmount) < 0) newErrors.cashPrizeAmount = "Cash prize must be zero or more.";
 
-    if (selectedMembers.length === 0) newErrors.selectedMembers = "Select at least one member.";
-    else if (selectedMembers.length > 5) newErrors.selectedMembers = "You can select up to 5 members.";
+    // Validation for member selection
+    if (selectedMembers.length === 0) {
+      newErrors.selectedMembers = "Select at least one member.";
+    } else if (selectedMembers.length > 5) {
+      newErrors.selectedMembers = "You can select up to 5 members.";
+    }
 
+    // Set errors
     setErrors(newErrors);
 
+    // If there are any errors, prevent form submission
     if (Object.keys(newErrors).length > 0) {
-      return; // Stop submission if errors exist
-  }
+      return;
+    }
+
+    // Prepare tournament data for submission
     console.log("Selected Members Before Submission:", selectedMembers);
 
     const tournamentData = {
@@ -219,6 +234,32 @@ const TournamentsPage = () => {
     }
   };
 
+  // Handle member selection and clearing errors when a member is selected
+  const handleMemberSelect = (e) => {
+    const selectedId = Number(e.target.value);
+
+    if (
+      selectedId &&
+      !selectedMembers.find((member) => member.id === selectedId) &&
+      selectedMembers.length < 5
+    ) {
+      const selected = allMembers.find((member) => member.id === selectedId);
+      if (selected) {
+        console.log("Adding Member:", selected);
+        setSelectedMembers((prevMembers) => [...prevMembers, selected]);
+
+        // Clear the selected members error once a member is selected
+        setErrors((prevErrors) => {
+          const updatedErrors = { ...prevErrors };
+          delete updatedErrors.selectedMembers;
+          return updatedErrors;
+        });
+      }
+    }
+
+    // Reset the dropdown selection
+    e.target.value = "";
+  };
   return (
     <div className="participants-container">
       <h1>Tournaments</h1>
@@ -291,32 +332,19 @@ const TournamentsPage = () => {
 
           {/* Add Members Dropdown */}
           <div className="member-select">
-            <label>Add Members (max 5):</label>
-            <select
-              onChange={(e) => {
-                const selectedId = Number(e.target.value);
-                if (
-                  selectedId &&
-                  !selectedMembers.find((member) => member.id === selectedId) &&
-                  selectedMembers.length < 5
-                ) {
-                  const selected = allMembers.find((member) => member.id === selectedId);
-                  if (selected) {
-                    console.log("Adding Member:", selected);
-                    setSelectedMembers((prevMembers) => [...prevMembers, selected]);
-                  }
-                }
-                e.target.value = "";
-              }}
-            >
-              <option value="">-- Select Member --</option>
-              {allMembers.map((member) => (
-                <option key={member.id} value={member.id}>
-                  {member.memberName}
-                </option>
-              ))}
-            </select>
-          </div>
+                <label>Add Members (max 5):</label>
+                <select onChange={handleMemberSelect}>
+                  <option value="">-- Select Member --</option>
+                  {allMembers.map((member) => (
+                    <option key={member.id} value={member.id}>
+                      {member.memberName}
+                    </option>
+                  ))}
+                </select>
+                {errors.selectedMembers && (
+                  <div className="error-message">{errors.selectedMembers}</div>
+                )}
+              </div>
           {/* Display Selected Members */}
           <div className="selected-members-display">
             <h3>Selected Members:</h3>
