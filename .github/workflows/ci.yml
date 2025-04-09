@@ -2,38 +2,32 @@ name: React App Deployment
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Explicitly grant write permissions
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          node-version: '18'
+          persist-credentials: false  # Required for public repos
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build the app
+      - name: Build project
         run: npm run build
 
-      - name: Set Git config
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "youremail@example.com"
-
       - name: Deploy to GitHub Pages
-        run: |
-          git remote set-url origin https://github.com/${{ github.repository }}
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          npx gh-pages -d build --repo "https://${{ github.actor}}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
