@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
@@ -33,5 +33,7 @@ jobs:
 
       - name: Deploy to GitHub Pages
         run: |
-          npm install -g gh-pages
-          GH_TOKEN=${{ secrets.GITHUB_TOKEN }} gh-pages -d build
+          git remote set-url origin https://github.com/${{ github.repository }}
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          npx gh-pages -d build --repo "https://${{ github.actor}}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
