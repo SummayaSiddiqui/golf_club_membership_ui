@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { getMembers } from "../services/api";
 
 const MembersPage = () => {
@@ -31,31 +31,6 @@ const MembersPage = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewMember({ ...newMember, [name]: value });
-  };
-
-  const handleBlur = (e) => {
-    const { name, value } = e.target;
-    if (name === "memberPhoneNumber") {
-      // Validate phone number format when user leaves the input
-      const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
-      if (value === "000000000" || value === "") {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          memberPhoneNumber: "Phone number is required and must be in the format 000-000-0000.",
-        }));
-      } else if (!phoneRegex.test(value)) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          memberPhoneNumber: "Phone number must be in the format 000-000-0000.",
-        }));
-      } else {
-        // Remove the error if phone number is in the correct format
-        setErrors((prevErrors) => {
-          const { memberPhoneNumber, ...rest } = prevErrors;
-          return rest;
-        });
-      }
-    }
   };
 
   const validateForm = () => {
@@ -91,11 +66,8 @@ const MembersPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate the form first
-    const isValid = validateForm();
-    if (!isValid) {
-      return; // Stop submission if form is invalid
-    }
+    // Validate form before submitting
+    if (!validateForm()) return;
 
     console.log("New Member Before Submission:", newMember);
 
@@ -162,17 +134,18 @@ const MembersPage = () => {
             onChange={handleInputChange}
             required
           />
-          {errors.memberEmailAddress && <span className="error">{errors.memberEmailAddress}</span>}
+          {errors.memberEmailAddress && <p className="error">{errors.memberEmailAddress}</p>} {/* Display email error */}
+
           <input
             type="text"
             name="memberPhoneNumber"
             placeholder="Phone"
             value={newMember.memberPhoneNumber}
             onChange={handleInputChange}
-            onBlur={handleBlur}
             required
           />
-          {errors.memberPhoneNumber && <span className="error">{errors.memberPhoneNumber}</span>}
+          {errors.memberPhoneNumber && <p className="error">{errors.memberPhoneNumber}</p>}
+
           <input
             type="date"
             name="memberStartDate"
