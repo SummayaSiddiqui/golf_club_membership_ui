@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMembers } from "../services/api";
+import { Link } from "react-router-dom";
 
 const MembersPage = () => {
   const [members, setMembers] = useState([]);
@@ -11,7 +11,7 @@ const MembersPage = () => {
     memberPhoneNumber: "",
     memberAddress: "",
     memberStartDate: "",
-    duration: "",
+    duration: "", // Duration will be calculated automatically
   });
   const [errors, setErrors] = useState({});
 
@@ -31,6 +31,25 @@ const MembersPage = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewMember({ ...newMember, [name]: value });
+
+    // If startDate changes, calculate the duration automatically
+    if (name === "memberStartDate") {
+      calculateDuration(value);
+    }
+  };
+
+  const calculateDuration = (startDate) => {
+    if (!startDate) return;
+
+    const start = new Date(startDate);
+    const today = new Date();
+    const timeDiff = today - start; // Time difference in milliseconds
+    const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24)); // Convert to days
+
+    setNewMember((prevState) => ({
+      ...prevState,
+      duration: daysDiff > 0 ? daysDiff : 0, // Ensure duration is not negative
+    }));
   };
 
   const validateForm = () => {
@@ -89,7 +108,7 @@ const MembersPage = () => {
           memberEmailAddress: "",
           memberPhoneNumber: "",
           memberStartDate: "",
-          duration: "",
+          duration: "", // Reset duration
         });
         setShowForm(false);
       } else {
@@ -144,7 +163,7 @@ const MembersPage = () => {
             onChange={handleInputChange}
             required
           />
-          {errors.memberPhoneNumber && <p className="error">{errors.memberPhoneNumber}</p>}
+          {errors.memberPhoneNumber && <p className="error">{errors.memberPhoneNumber}</p>} {/* Display phone number error */}
 
           <input
             type="date"
@@ -154,14 +173,12 @@ const MembersPage = () => {
             onChange={handleInputChange}
             required
           />
-          <input
-            type="text"
-            name="duration"
-            placeholder="Duration"
-            value={newMember.duration}
-            onChange={handleInputChange}
-            required
-          />
+
+          {/* Duration is automatically calculated and displayed */}
+          <div>
+            <strong>Duration: </strong>{newMember.duration} days
+          </div>
+
           <button type="submit">Add Member</button>
         </form>
       )}
