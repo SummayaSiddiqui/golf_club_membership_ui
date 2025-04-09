@@ -13,19 +13,7 @@ import MemberDetailsPage from "./pages/MemberDetailsPage";
 const App = () => {
   return (
     <Router>
-      <div
-        style={{
-          backgroundImage: "url(/golfBg.jpeg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          minHeight: "100vh",
-          margin: 0,
-          padding: 0,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <div className="app-background">
         <div className="app-container">
           <Header />
           <main
