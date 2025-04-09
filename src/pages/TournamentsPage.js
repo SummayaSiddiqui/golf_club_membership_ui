@@ -8,6 +8,8 @@ const TournamentsPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [allMembers, setAllMembers] = useState([]);
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [touchedFields, setTouchedFields] = useState({});
 
   const [newTournament, setNewTournament] = useState({
     startDate: "",
@@ -19,28 +21,28 @@ const TournamentsPage = () => {
 
   useEffect(() => {
     const fetchTournaments = async () => {
-      setLoading(true); // Set loading before fetching
+      setLoading(true);
       try {
         const data = await getTournaments();
         setTournaments(data);
       } catch (error) {
         console.error("Error fetching tournaments:", error);
       } finally {
-        setLoading(false); // Set loading false after fetch
+        setLoading(false);
       }
     };
 
     fetchTournaments();
-  }, []); // Empty dependency array to fetch tournaments once when the component mounts
+  }, []);
 
   useEffect(() => {
     const fetchMembers = async () => {
-      setLoading(true); // Set loading before fetching
+      setLoading(true);
       try {
         const response = await fetch("http://localhost:8080/api/members/allMembers");
         const data = await response.json();
 
-        console.log("Fetched Members:", data); // Ensure all required fields are present
+        console.log("Fetched Members:", data);
         setAllMembers(data);
       } catch (error) {
         console.error("Error fetching members:", error);
@@ -54,12 +56,139 @@ const TournamentsPage = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewTournament({ ...newTournament, [name]: value });
+
+    setNewTournament((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // When the start date is updated, validate it against today's date
+    if (name === "startDate") {
+      const todayStr = new Date().toISOString().split("T")[0];
+      if (new Date(value) < new Date(todayStr)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          startDate: "Start date cannot be in the past.",
+        }));
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          startDate: "",  // Clear the error
+        }));
+      }
+    }
+
+    // Check end date only if it's available, and compare with start date
+    if (name === "endDate" && newTournament.startDate) {
+      const startDateObj = new Date(newTournament.startDate);
+      const endDateObj = new Date(value);
+      if (startDateObj > endDateObj) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          endDate: "End date must not be earlier than the start date.",
+        }));
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          endDate: "",  // Clear the error
+        }));
+      }
+    }
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    const { startDate, endDate } = newTournament;
+    const newErrors = { ...errors };
+    setTouchedFields((prevTouched) => ({
+        ...prevTouched,
+        [name]: true,
+      }));
+
+    if (name === "startDate") {
+      if (!value) {
+        newErrors.startDate = "Start date is required.";
+      } else {
+        const todayStr = new Date().toISOString().split("T")[0];
+        const selectedStartStr = new Date(value).toISOString().split("T")[0];
+        if (selectedStartStr < todayStr) {
+          newErrors.startDate = "Start date cannot be in the past.";
+        } else {
+          delete newErrors.startDate;
+        }
+      }
+
+      if (endDate && new Date(value) > new Date(endDate)) {
+        newErrors.endDate = "End date must not be earlier than the start date.";
+      } else {
+        delete newErrors.endDate;
+      }
+    }
+
+    if (name === "endDate") {
+      if (!value) {
+        newErrors.endDate = "End date is required.";
+      } else if (startDate && new Date(startDate) > new Date(value)) {
+        newErrors.endDate = "End date must not be earlier than the start date.";
+      } else {
+        delete newErrors.endDate;
+      }
+    }
+
+    if (name === "location" && !value.trim()) {
+      newErrors.location = "Location is required.";
+    }
+
+    if ((name === "entryFee" || name === "cashPrizeAmount") && (!value || value < 0)) {
+      newErrors[name] = "Please enter a valid amount.";
+    }
+
+    setErrors(newErrors);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const newErrors = {};
+
+    // Other validation logic (startDate, endDate, etc.)
+    const { startDate, endDate, location, entryFee, cashPrizeAmount } = newTournament;
+
+    if (!startDate) {
+        newErrors.startDate = "Start date is required.";
+      } else {
+        const todayStr = new Date().toISOString().split("T")[0];
+        const selectedStartStr = new Date(startDate).toISOString().split("T")[0];
+        if (selectedStartStr < todayStr) {
+          newErrors.startDate = "Start date cannot be in the past.";
+        } else {
+          delete newErrors.startDate;
+        }
+      }
+    if (!endDate) newErrors.endDate = "End date is required.";
+    else if (new Date(startDate) > new Date(endDate)) newErrors.endDate = "End date must not be earlier than the start date.";
+
+    if (!location.trim()) newErrors.location = "Location is required.";
+
+    if (entryFee === "" || Number(entryFee) < 0) newErrors.entryFee = "Entry fee must be zero or more.";
+    if (cashPrizeAmount === "" || Number(cashPrizeAmount) < 0) newErrors.cashPrizeAmount = "Cash prize must be zero or more.";
+
+    // Validation for member selection
+    if (selectedMembers.length === 0) {
+      newErrors.selectedMembers = "Select at least one member.";
+    } else if (selectedMembers.length > 5) {
+      newErrors.selectedMembers = "You can select up to 5 members.";
+    }
+
+    // Set errors
+    setErrors(newErrors);
+
+    // If there are any errors, prevent form submission
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
+    // Prepare tournament data for submission
     console.log("Selected Members Before Submission:", selectedMembers);
 
     const tournamentData = {
@@ -105,6 +234,32 @@ const TournamentsPage = () => {
     }
   };
 
+  // Handle member selection and clearing errors when a member is selected
+  const handleMemberSelect = (e) => {
+    const selectedId = Number(e.target.value);
+
+    if (
+      selectedId &&
+      !selectedMembers.find((member) => member.id === selectedId) &&
+      selectedMembers.length < 5
+    ) {
+      const selected = allMembers.find((member) => member.id === selectedId);
+      if (selected) {
+        console.log("Adding Member:", selected);
+        setSelectedMembers((prevMembers) => [...prevMembers, selected]);
+
+        // Clear the selected members error once a member is selected
+        setErrors((prevErrors) => {
+          const updatedErrors = { ...prevErrors };
+          delete updatedErrors.selectedMembers;
+          return updatedErrors;
+        });
+      }
+    }
+
+    // Reset the dropdown selection
+    e.target.value = "";
+  };
   return (
     <div className="participants-container">
       <h1>Tournaments</h1>
@@ -120,17 +275,33 @@ const TournamentsPage = () => {
             name="startDate"
             value={newTournament.startDate}
             onChange={handleInputChange}
+            onBlur={handleBlur}
             placeholder="Start Date"
+            min={new Date().toISOString().split("T")[0]}
             required
           />
+          {touchedFields.startDate && errors.startDate && (
+            <p className="error">{errors.startDate}</p>
+          )}
           <input
             type="date"
             name="endDate"
             value={newTournament.endDate}
             onChange={handleInputChange}
+            onBlur={handleBlur}
             placeholder="End Date"
+            min={
+              newTournament.startDate
+                ? new Date(new Date(newTournament.startDate).getTime() + 86400000)
+                    .toISOString()
+                    .split("T")[0]
+                : ""
+            }
             required
           />
+          {touchedFields.endDate && errors.endDate && (
+            <p className="error">{errors.endDate}</p>
+          )}
           <input
             type="text"
             name="location"
@@ -139,6 +310,7 @@ const TournamentsPage = () => {
             placeholder="Location"
             required
           />
+          {errors.location && <p className="error">{errors.location}</p>}
           <input
             type="number"
             name="entryFee"
@@ -147,6 +319,7 @@ const TournamentsPage = () => {
             placeholder="Entry Fee"
             required
           />
+          {errors.entryFee && <p className="error">{errors.entryFee}</p>}
           <input
             type="number"
             name="cashPrizeAmount"
@@ -155,35 +328,23 @@ const TournamentsPage = () => {
             placeholder="Cash Prize"
             required
           />
+          {errors.cashPrizeAmount&& <p className="error">{errors.cashPrizeAmount}</p>}
 
           {/* Add Members Dropdown */}
           <div className="member-select">
-            <label>Add Members (max 5):</label>
-            <select
-              onChange={(e) => {
-                const selectedId = Number(e.target.value); // Convert to number
-                if (
-                  selectedId &&
-                  !selectedMembers.find((member) => member.id === selectedId) &&
-                  selectedMembers.length < 5
-                ) {
-                  const selected = allMembers.find((member) => member.id === selectedId);
-                  if (selected) {
-                    console.log("Adding Member:", selected);
-                    setSelectedMembers((prevMembers) => [...prevMembers, selected]);
-                  }
-                }
-                e.target.value = ""; // Reset dropdown
-              }}
-            >
-              <option value="">-- Select Member --</option>
-              {allMembers.map((member) => (
-                <option key={member.id} value={member.id}>
-                  {member.memberName}
-                </option>
-              ))}
-            </select>
-          </div>
+                <label>Add Members (max 5):</label>
+                <select onChange={handleMemberSelect}>
+                  <option value="">-- Select Member --</option>
+                  {allMembers.map((member) => (
+                    <option key={member.id} value={member.id}>
+                      {member.memberName}
+                    </option>
+                  ))}
+                </select>
+                {errors.selectedMembers && (
+                  <div className="error-message">{errors.selectedMembers}</div>
+                )}
+              </div>
           {/* Display Selected Members */}
           <div className="selected-members-display">
             <h3>Selected Members:</h3>
