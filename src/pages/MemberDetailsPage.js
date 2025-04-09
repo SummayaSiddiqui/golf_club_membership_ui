@@ -33,7 +33,6 @@ const MemberDetails = () => {
       <p><strong>Phone:</strong> {member.memberPhoneNumber}</p>
       <p><strong>Address:</strong> {member.memberAddress}</p>
       <p><strong>Member Since:</strong> {member.memberStartDate}</p>
-      <p><strong>Membership Duration:</strong> {member.duration} days</p>
       <button onClick={() => window.history.back()} className="back-btn">
         Go Back
       </button>
