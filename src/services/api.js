@@ -107,7 +107,7 @@ export const getMemberByName = async (name) => {
     return await response.json();
   } catch (error) {
     console.error(error);
-    return null;
+    return [];
   }
 };
 
