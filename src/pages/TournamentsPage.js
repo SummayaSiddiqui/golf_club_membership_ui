@@ -154,17 +154,10 @@ const TournamentsPage = () => {
     // Other validation logic (startDate, endDate, etc.)
     const { startDate, endDate, location, entryFee, cashPrizeAmount } = newTournament;
 
-    if (!startDate) {
-        newErrors.startDate = "Start date is required.";
-      } else {
-        const todayStr = new Date().toISOString().split("T")[0];
-        const selectedStartStr = new Date(startDate).toISOString().split("T")[0];
-        if (selectedStartStr < todayStr) {
+    if (!startDate) newErrors.startDate = "Start date is required.";
+        else if (new Date(startDate) < new Date().setHours(0, 0, 0, 0)) {
           newErrors.startDate = "Start date cannot be in the past.";
-        } else {
-          delete newErrors.startDate;
         }
-      }
     if (!endDate) newErrors.endDate = "End date is required.";
     else if (new Date(startDate) > new Date(endDate)) newErrors.endDate = "End date must not be earlier than the start date.";
 
