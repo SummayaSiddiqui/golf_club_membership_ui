@@ -165,19 +165,15 @@ const MembersPage = () => {
           />
           {errors.memberPhoneNumber && <p className="error">{errors.memberPhoneNumber}</p>} {/* Display phone number error */}
 
+          <label htmlFor="memberStartDate">Start Date</label>
           <input
             type="date"
+            id="memberStartDate"
             name="memberStartDate"
-            placeholder="Start Date"
             value={newMember.memberStartDate}
             onChange={handleInputChange}
             required
           />
-
-          {/* Duration is automatically calculated and displayed */}
-          <div>
-            <strong>Duration: </strong>{newMember.duration} days
-          </div>
 
           <button type="submit">Add Member</button>
         </form>
