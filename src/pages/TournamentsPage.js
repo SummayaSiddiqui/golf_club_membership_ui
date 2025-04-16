@@ -24,9 +24,10 @@ const TournamentsPage = () => {
       setLoading(true);
       try {
         const data = await getTournaments();
-        setTournaments(data);
+        setTournaments(Array.isArray(data) ? data : []); // Always set to array
       } catch (error) {
         console.error("Error fetching tournaments:", error);
+        setTournaments([]); // Set empty array on error
       } finally {
         setLoading(false);
       }
@@ -37,17 +38,13 @@ const TournamentsPage = () => {
 
   useEffect(() => {
     const fetchMembers = async () => {
-      setLoading(true);
       try {
         const response = await fetch("http://localhost:8080/api/members/allMembers");
         const data = await response.json();
-
-        console.log("Fetched Members:", data);
-        setAllMembers(data);
+        setAllMembers(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching members:", error);
-      } finally {
-        setLoading(false);
+        setAllMembers([]); // Set empty array on error
       }
     };
 

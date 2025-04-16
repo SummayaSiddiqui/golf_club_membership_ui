@@ -77,6 +77,11 @@ const MemberSearch = () => {
       if (Array.isArray(result) && result.length >= 1) {
         setMembers(result);
         setMember(null);
+      } else if (Array.isArray(result) && result.length === 0) {
+        setError("No members found."); // Display message when array is empty
+        setSearchCompleted(true);
+        setMembers([]); // Ensure members is empty
+        setMember(null); // Ensure member is null
       } else {
         setMember(result);
         setMembers([]);
