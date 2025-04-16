@@ -44,18 +44,16 @@ const CreateMember = () => {
       return false;
     }
 
+    // Check for duplicates based only on email or phone number
     const duplicate = members.find(
       (m) =>
-        m.memberName.toLowerCase() === member.memberName.toLowerCase() ||
         m.memberEmailAddress.toLowerCase() === member.memberEmailAddress.toLowerCase() ||
         m.memberPhoneNumber === member.memberPhoneNumber
     );
 
     if (duplicate) {
       setError(
-        duplicate.memberName.toLowerCase() === member.memberName.toLowerCase()
-          ? "Name already exists."
-          : duplicate.memberEmailAddress.toLowerCase() === member.memberEmailAddress.toLowerCase()
+        duplicate.memberEmailAddress.toLowerCase() === member.memberEmailAddress.toLowerCase()
           ? "Email already exists."
           : "Phone already exists."
       );

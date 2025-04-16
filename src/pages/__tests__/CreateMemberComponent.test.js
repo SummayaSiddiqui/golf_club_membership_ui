@@ -43,7 +43,7 @@ describe("CreateMember Component", () => {
     );
   });
 
-  test("shows error if member already exists", async () => {
+  test("shows error if email or phone already exists", async () => {
     api.getMembers.mockResolvedValue([
       {
         memberName: "John Doe",
@@ -81,7 +81,9 @@ describe("CreateMember Component", () => {
     fireEvent.click(screen.getByText("Create Member"));
 
     await waitFor(() =>
-      expect(screen.getByText("Name already exists.")).toBeInTheDocument()
+      expect(
+        screen.getByText("Email already exists.")
+      ).toBeInTheDocument()
     );
   });
 });
