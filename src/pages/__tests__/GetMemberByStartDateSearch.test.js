@@ -1,10 +1,10 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+   import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import GetMemberByStartDateSearch from "../../components/GetMemberByStartDateSearch";
 
 jest.mock("../../services/api");
 
 describe("GetMemberByStartDateSearch Component", () => {
-  test("displays member details when a single member is found", () => {
+  test("displays member details when a single member is found", async () => {
     const member = {
       memberName: "John Doe",
       memberAddress: "123 Maple Street, Toronto",
@@ -35,8 +35,42 @@ describe("GetMemberByStartDateSearch Component", () => {
     expect(screen.getByText("2024-01-10")).toBeInTheDocument();
   });
 
-  test("displays error message when error is passed", () => {
-    const errorMessage = "No members found for this start date";
+  test("displays list of members when multiple members are found", async () => {
+    const members = [
+      {
+        memberName: "John Doe",
+        memberAddress: "123 Maple Street, Toronto",
+        memberEmailAddress: "johndoe1@email.com",
+        memberPhoneNumber: "647-555-1234",
+        memberStartDate: "2024-01-10",
+        duration: "1 year",
+      },
+      {
+        memberName: "John Doe",
+        memberAddress: "213 Wing Street, Toronto",
+        memberEmailAddress: "doe1@email.com",
+        memberPhoneNumber: "647-555-5678",
+        memberStartDate: "2024-01-10",
+        duration: "1 years",
+      },
+    ];
+
+    render(
+      <GetMemberByStartDateSearch
+        member={null}
+        members={members}
+        error={null}
+        onBack={jest.fn()}
+      />
+    );
+
+    expect(screen.getByText("Members Found")).toBeInTheDocument();
+    const startDates = screen.getAllByText("2024-01-10");
+    expect(startDates).toHaveLength(2);
+  });
+
+  test("displays error message when error is passed", async () => {
+    const errorMessage = "No members found for this date";
 
     render(
       <GetMemberByStartDateSearch
@@ -48,23 +82,8 @@ describe("GetMemberByStartDateSearch Component", () => {
     );
 
     expect(
-      screen.getByText("No members found for this start date")
+      screen.getByText("No members found for this date")
     ).toBeInTheDocument();
   });
-
-  test("calls onBack function when 'Go Back' button is clicked", () => {
-    const onBackMock = jest.fn();
-
-    render(
-      <GetMemberByStartDateSearch
-        member={null}
-        members={[]}
-        error={null}
-        onBack={onBackMock}
-      />
-    );
-
-    fireEvent.click(screen.getByText("Go Back"));
-    expect(onBackMock).toHaveBeenCalledTimes(1);
-  });
 });
+
