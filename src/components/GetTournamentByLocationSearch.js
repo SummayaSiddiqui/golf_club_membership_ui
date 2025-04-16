@@ -19,7 +19,7 @@ const GetTournamentByLocationSearch = ({ tournament, tournaments, error, onBack 
 
       {tournaments.length > 0 && (
         <div className="tournament-details">
-          <h2>Tournaments Details</h2>
+          <h2>Tournaments Found</h2>
           <hr className="tournament-separator" />
           {tournaments.map((t, index) => (
             <div key={index}>

@@ -1,4 +1,4 @@
-   import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import GetMemberByStartDateSearch from "../../components/GetMemberByStartDateSearch";
 
 jest.mock("../../services/api");
